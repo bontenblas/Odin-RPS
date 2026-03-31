@@ -23,35 +23,47 @@
             return playerChoice
         }
 
-        function playRound(humanChoice, computerChoice) {
-            let player = humanChoice.toLowerCase()
-            let cpu = computerChoice.toLowerCase()
-            if ((player == 'rock' && cpu == 'rock') || 
-                (player == 'paper' && cpu == 'paper') ||
-                (player == 'scissors' && cpu == 'scissors')) {
-                return 'tie'
-            } else if ((player == 'rock' && cpu == 'scissors') ||
-                        (player == 'paper' && cpu == 'rock') ||
-                        (player == 'scissors' && cpu == 'paper')) {
-                return 'Human wins!'
-            } else {
-                return 'Computer wins!'
+        function playGame(human, computer) {
+            function playRound(playerChoice, cpuChoice) {  
+                let player = playerChoice.toLowerCase()
+                let cpu = cpuChoice.toLowerCase()
+                
+                if (player === cpu) {
+                    return 'tie'
+                } else if ((player == 'rock' && cpu == 'scissors') ||
+                            (player == 'paper' && cpu == 'rock') ||
+                            (player == 'scissors' && cpu == 'paper')) {
+                    return 'win'
+                } else {
+                    return 'lose'
+                }
+            }            
+            
+            // score
+            let humanScore = 0;
+            let computerScore = 0;
+
+            for (let i = 0; i < 7; i++) {
+                // get choice
+                let humanChoice = getHumanChoice();
+                let computerChoice = getComputerChoice();
+
+                let result = playRound(humanChoice, computerChoice);
+
+                if (result === 'win') humanScore++
+                if (result === 'lose') computerScore++
+                
+                console.log(result)
+                console.log(`Human: ${humanScore}, Computer: ${computerScore}`) 
+                if (humanScore === 4 || computerScore === 4) break  
             }
+
+            if (humanScore > computerScore) console.log('Human wins!')
+            if (computerScore > humanScore) console.log('Computer wins...')
+            if (computerScore == humanScore) console.log('Its a tie!')
         }
 
-        // get player choice
-        let humanChoice = getHumanChoice()
-        //get cpu choice
-        let computerChoice = getComputerChoice();
-
-
-        // score
-        let humanScore = 0;
-        let cpuScore = 0; 
-
-        
-
-
+        playGame()
     </script>
 </body>
 </html>
