@@ -6,6 +6,15 @@
     <title>Rock Paper Scissors!</title>
 </head>
 <body>
+
+    <button id="rock">Rock</button>
+    <button id="paper">Paper</button>
+    <button id="scissors">Scissors</button>
+
+    <div id="rounds"></div>
+
+    <p id="scoreBoard"></p>
+
     <script>
         function getComputerChoice() {
             let cpuChoice = Math.floor(Math.random() * 3)
@@ -18,51 +27,171 @@
             }
         }
 
-        function getHumanChoice(choice) {
-            let playerChoice = prompt("Rock, Paper, or Scissors")
-            return playerChoice
-        }
+        // function getHumanChoice(choice) {
+        //     let playerChoice = prompt("Rock, Paper, or Scissors")
+        //     return playerChoice
+        // }
 
         function playGame(human, computer) {
-            function playRound(playerChoice, cpuChoice) {  
+            for (let i = 0; i > 9; i++) {
+                function playRound(playerChoice, cpuChoice) {  
                 let player = playerChoice.toLowerCase()
                 let cpu = cpuChoice.toLowerCase()
                 
                 if (player === cpu) {
-                    return 'tie'
+                    console.log('tie')
+                    return "tie"
                 } else if ((player == 'rock' && cpu == 'scissors') ||
                             (player == 'paper' && cpu == 'rock') ||
                             (player == 'scissors' && cpu == 'paper')) {
-                    return 'win'
+                    console.log('win')
+                    return "Win"
                 } else {
-                    return 'lose'
+                    console.log('lose')
+                    return "Lose"
                 }
-            }            
+            }   
             
-            // score
-            let humanScore = 0;
-            let computerScore = 0;
+            const container = document.querySelector('body')
+            const rockBtn = document.querySelector('#rock')
+            const paperBtn = document.querySelector('#paper')
+            const scissorsBtn = document.querySelector('#scissors')
+            const results = document.querySelector('#rounds')
+            const score = document.querySelector("#scoreBoard")
+            container.append(rockBtn)
+            container.append(paperBtn)
+            container.append(scissorsBtn)
+            container.append(results)
+            container.append(score)
 
-            for (let i = 0; i < 7; i++) {
-                // get choice
-                let humanChoice = getHumanChoice();
-                let computerChoice = getComputerChoice();
+            let cpuScore = 0;
+            let playerScore = 0;
 
-                let result = playRound(humanChoice, computerChoice);
+            if (playerScore === 5 || cpuScore === 5) {
+                break
+            } else {
+                score.textContent = `Player: ${playerScore} | CPU: ${cpuScore}`
 
-                if (result === 'win') humanScore++
-                if (result === 'lose') computerScore++
-                
-                console.log(result)
-                console.log(`Human: ${humanScore}, Computer: ${computerScore}`) 
-                if (humanScore === 4 || computerScore === 4) break  
+                rockBtn.addEventListener('click', () => {
+                    const showResult = document.createElement("p")
+                    const player = 'Rock'
+                    const cpu = getComputerChoice()
+                    const roundResult = playRound(player, cpu)
+
+                    if (roundResult.toLowerCase() === 'win') {
+                        showResult.textContent = `${roundResult}! ${player} beats ${cpu}!`
+                        results.appendChild(showResult)
+                        playerScore + 1
+                    }
+
+                    if (roundResult.toLowerCase() === 'lose') {
+                        showResult.textContent = `${roundResult}. ${cpu} beats ${player}...`
+                        results.appendChild(showResult)
+                        cpuScore + 1
+                    }
+
+                    if (roundResult.toLowerCase() === 'tie') {
+                        showResult.textContent = "It's a tie!"
+                        results.appendChild(showResult)
+                    }
+
+                })
+
+                paperBtn.addEventListener('click', () => {
+                    const showResult = document.createElement("p")
+                    const player = 'Paper'
+                    const cpu = getComputerChoice()
+                    const roundResult = playRound(player, cpu)
+
+                    if (roundResult.toLowerCase() === 'win') {
+                        showResult.textContent = `${roundResult}! ${player} beats ${cpu}!`
+                        results.appendChild(showResult)
+                    }
+
+                    if (roundResult.toLowerCase() === 'lose') {
+                        showResult.textContent = `${roundResult}. ${cpu} beats ${player}...`
+                        results.appendChild(showResult)
+                    }
+
+                    if (roundResult.toLowerCase() === 'tie') {
+                        showResult.textContent = "It's a tie!"
+                        results.appendChild(showResult)
+                    }
+                })
+
+                scissorsBtn.addEventListener('click', () => {
+                    const showResult = document.createElement("p")
+                    const player = 'Scissors'
+                    const cpu = getComputerChoice()
+                    const roundResult = playRound(player, cpu)
+
+                    if (roundResult.toLowerCase() === 'win') {
+                        showResult.textContent = `${roundResult}! ${player} beats ${cpu}!`
+                        results.appendChild(showResult)
+                    }
+
+                    if (roundResult.toLowerCase() === 'lose') {
+                        showResult.textContent = `${roundResult}. ${cpu} beats ${player}...`
+                        results.appendChild(showResult)
+                    }
+
+                    if (roundResult.toLowerCase() === 'tie') {
+                        showResult.textContent = "It's a tie!"
+                        results.appendChild(showResult)
+                    }
+                })
+
             }
+            
+            
 
-            if (humanScore > computerScore) console.log('Human wins!')
-            if (computerScore > humanScore) console.log('Computer wins...')
-            if (computerScore == humanScore) console.log('Its a tie!')
+
+
+
+
+            // const result = document.querySelector('div')
+            // if (playRound() === 'win') {
+            //     result.textContent(playRound())
+            //     display.append(result)
+            // }
+
+            // if (playRound() === 'tie') {
+            //     result.textContent("tie")
+            // }
+
+            // if (playRound() === 'lose') {
+            //     result.textContent("lose")
+            // }
+
+            
+            // // score
+            // let humanScore = 0;
+            // let computerScore = 0;
+
+            // get choice
+            // let humanChoice = getHumanChoice();
+            // let computerChoice = getComputerChoice();
+
+            // let result = playRound(humanChoice, computerChoice);
+
+            // if (result === 'win') humanScore++
+            // if (result === 'lose') computerScore++
+            
+            // console.log(result)
+            // console.log(`Human: ${humanScore}, Computer: ${computerScore}`) 
+            // if (humanScore === 4 || computerScore === 4)
+
+            // if (humanScore > computerScore) {
+                
+            // }
+            // if (computerScore > humanScore) {
+
+            // }
+            // if (computerScore == humanScore) {
+
+            // 
+            }
         }
-
         playGame()
     </script>
 </body>
