@@ -10,10 +10,12 @@
     <button id="rock">Rock</button>
     <button id="paper">Paper</button>
     <button id="scissors">Scissors</button>
+    <p id="scoreBoard"></p>
 
     <div id="rounds"></div>
+    <p id="winner" style="font-size: 24px;"></p>
 
-    <p id="scoreBoard"></p>
+    
 
     <script>
         function getComputerChoice() {
@@ -33,24 +35,35 @@
         // }
 
         function playGame(human, computer) {
-            for (let i = 0; i > 9; i++) {
-                function playRound(playerChoice, cpuChoice) {  
+            function playRound(playerChoice, cpuChoice) {  
                 let player = playerChoice.toLowerCase()
                 let cpu = cpuChoice.toLowerCase()
                 
                 if (player === cpu) {
                     console.log('tie')
-                    return "tie"
+                    return 'Tie'
                 } else if ((player == 'rock' && cpu == 'scissors') ||
                             (player == 'paper' && cpu == 'rock') ||
                             (player == 'scissors' && cpu == 'paper')) {
                     console.log('win')
-                    return "Win"
+                    return 'Win'
                 } else {
                     console.log('lose')
-                    return "Lose"
+                    return 'Lose'
                 }
-            }   
+            }
+
+            function checkWinner(player, cpu) {
+                const buttons = document.querySelectorAll("button")
+                if (player === 5) {
+                    sayWinner.textContent = "Player Wins!"
+                    buttons.forEach(btn => btn.disabled = true)
+                } if (cpu === 5) {
+                    sayWinner.textContent = "CPU Wins..."
+                    buttons.forEach(btn => btn.disabled = true)
+                }
+            }
+        
             
             const container = document.querySelector('body')
             const rockBtn = document.querySelector('#rock')
@@ -58,140 +71,106 @@
             const scissorsBtn = document.querySelector('#scissors')
             const results = document.querySelector('#rounds')
             const score = document.querySelector("#scoreBoard")
+            const sayWinner = document.querySelector("#winner")
             container.append(rockBtn)
             container.append(paperBtn)
             container.append(scissorsBtn)
-            container.append(results)
             container.append(score)
+            container.append(results)
+            container.append(sayWinner)
 
             let cpuScore = 0;
             let playerScore = 0;
 
-            if (playerScore === 5 || cpuScore === 5) {
-                break
-            } else {
-                score.textContent = `Player: ${playerScore} | CPU: ${cpuScore}`
-
-                rockBtn.addEventListener('click', () => {
-                    const showResult = document.createElement("p")
-                    const player = 'Rock'
-                    const cpu = getComputerChoice()
-                    const roundResult = playRound(player, cpu)
-
-                    if (roundResult.toLowerCase() === 'win') {
-                        showResult.textContent = `${roundResult}! ${player} beats ${cpu}!`
-                        results.appendChild(showResult)
-                        playerScore + 1
-                    }
-
-                    if (roundResult.toLowerCase() === 'lose') {
-                        showResult.textContent = `${roundResult}. ${cpu} beats ${player}...`
-                        results.appendChild(showResult)
-                        cpuScore + 1
-                    }
-
-                    if (roundResult.toLowerCase() === 'tie') {
-                        showResult.textContent = "It's a tie!"
-                        results.appendChild(showResult)
-                    }
-
-                })
-
-                paperBtn.addEventListener('click', () => {
-                    const showResult = document.createElement("p")
-                    const player = 'Paper'
-                    const cpu = getComputerChoice()
-                    const roundResult = playRound(player, cpu)
-
-                    if (roundResult.toLowerCase() === 'win') {
-                        showResult.textContent = `${roundResult}! ${player} beats ${cpu}!`
-                        results.appendChild(showResult)
-                    }
-
-                    if (roundResult.toLowerCase() === 'lose') {
-                        showResult.textContent = `${roundResult}. ${cpu} beats ${player}...`
-                        results.appendChild(showResult)
-                    }
-
-                    if (roundResult.toLowerCase() === 'tie') {
-                        showResult.textContent = "It's a tie!"
-                        results.appendChild(showResult)
-                    }
-                })
-
-                scissorsBtn.addEventListener('click', () => {
-                    const showResult = document.createElement("p")
-                    const player = 'Scissors'
-                    const cpu = getComputerChoice()
-                    const roundResult = playRound(player, cpu)
-
-                    if (roundResult.toLowerCase() === 'win') {
-                        showResult.textContent = `${roundResult}! ${player} beats ${cpu}!`
-                        results.appendChild(showResult)
-                    }
-
-                    if (roundResult.toLowerCase() === 'lose') {
-                        showResult.textContent = `${roundResult}. ${cpu} beats ${player}...`
-                        results.appendChild(showResult)
-                    }
-
-                    if (roundResult.toLowerCase() === 'tie') {
-                        showResult.textContent = "It's a tie!"
-                        results.appendChild(showResult)
-                    }
-                })
-
-            }
-            
-            
-
-
-
-
-
-            // const result = document.querySelector('div')
-            // if (playRound() === 'win') {
-            //     result.textContent(playRound())
-            //     display.append(result)
-            // }
-
-            // if (playRound() === 'tie') {
-            //     result.textContent("tie")
-            // }
-
-            // if (playRound() === 'lose') {
-            //     result.textContent("lose")
-            // }
+            score.textContent = `Player: 0 | CPU: 0`
 
             
-            // // score
-            // let humanScore = 0;
-            // let computerScore = 0;
 
-            // get choice
-            // let humanChoice = getHumanChoice();
-            // let computerChoice = getComputerChoice();
+            rockBtn.addEventListener('click', () => {
+                const showResult = document.createElement("p")
+                const player = 'Rock'
+                const cpu = getComputerChoice()
+                const roundResult = playRound(player, cpu)
 
-            // let result = playRound(humanChoice, computerChoice);
+                if (roundResult.toLowerCase() === 'win') {
+                    showResult.textContent = `${roundResult}! ${player} beats ${cpu}!`
+                    results.appendChild(showResult)
+                    playerScore += 1
+                    score.textContent = `Player: ${playerScore} | CPU: ${cpuScore}`
+                    checkWinner(playerScore, cpuScore)
+                }
 
-            // if (result === 'win') humanScore++
-            // if (result === 'lose') computerScore++
-            
-            // console.log(result)
-            // console.log(`Human: ${humanScore}, Computer: ${computerScore}`) 
-            // if (humanScore === 4 || computerScore === 4)
+                if (roundResult.toLowerCase() === 'lose') {
+                    showResult.textContent = `${roundResult}. ${cpu} beats ${player}...`
+                    results.appendChild(showResult)
+                    cpuScore += 1
+                    score.textContent = `Player: ${playerScore} | CPU: ${cpuScore}`
+                    checkWinner(playerScore, cpuScore)
+                }
 
-            // if (humanScore > computerScore) {
-                
-            // }
-            // if (computerScore > humanScore) {
+                if (roundResult.toLowerCase() === 'tie') {
+                    showResult.textContent = "It's a tie!"
+                    results.appendChild(showResult)
+                }
 
-            // }
-            // if (computerScore == humanScore) {
+            })
 
-            // 
-            }
-        }
+            paperBtn.addEventListener('click', () => {
+                const showResult = document.createElement("p")
+                const player = 'Paper'
+                const cpu = getComputerChoice()
+                const roundResult = playRound(player, cpu)
+
+                if (roundResult.toLowerCase() === 'win') {
+                    showResult.textContent = `${roundResult}! ${player} beats ${cpu}!`
+                    results.appendChild(showResult)
+                    playerScore += 1
+                    score.textContent = `Player: ${playerScore} | CPU: ${cpuScore}`
+                    checkWinner(playerScore, cpuScore)
+                }
+
+                if (roundResult.toLowerCase() === 'lose') {
+                    showResult.textContent = `${roundResult}! ${player} beats ${cpu}!`
+                    results.appendChild(showResult)
+                    cpuScore += 1
+                    score.textContent = `Player: ${playerScore} | CPU: ${cpuScore}`
+                    checkWinner(playerScore, cpuScore)
+                }
+
+                if (roundResult.toLowerCase() === 'tie') {
+                    showResult.textContent = "It's a tie!"
+                    results.appendChild(showResult)
+                }
+            })
+
+            scissorsBtn.addEventListener('click', () => {
+                const showResult = document.createElement("p")
+                const player = 'Scissors'
+                const cpu = getComputerChoice()
+                const roundResult = playRound(player, cpu)
+
+                if (roundResult.toLowerCase() === 'win') {
+                    showResult.textContent = `${roundResult}! ${player} beats ${cpu}!`
+                    results.appendChild(showResult)
+                    playerScore += 1
+                    score.textContent = `Player: ${playerScore} | CPU: ${cpuScore}`
+                    checkWinner(playerScore, cpuScore)
+                }
+
+                if (roundResult.toLowerCase() === 'lose') {
+                    showResult.textContent = `${roundResult}! ${player} beats ${cpu}!`
+                    results.appendChild(showResult)
+                    cpuScore += 1
+                    score.textContent = `Player: ${playerScore} | CPU: ${cpuScore}`
+                    checkWinner(playerScore, cpuScore)
+                }
+
+                if (roundResult.toLowerCase() === 'tie') {
+                    showResult.textContent = "It's a tie!"
+                    results.appendChild(showResult)
+                }
+            })
+        }    
         playGame()
     </script>
 </body>
